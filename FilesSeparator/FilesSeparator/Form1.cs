@@ -20,13 +20,15 @@ namespace FilesSeparator
         {
             InitializeComponent();
         }
+        string diir = "";
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                DirectoryInfo dir = new DirectoryInfo(folderBrowserDialog1.SelectedPath);
-                FileInfo[] fichiers = dir.GetFiles();
+                diir = folderBrowserDialog1.SelectedPath;
+                DirectoryInfo dir = new DirectoryInfo(diir);
+                FileInfo[] fichiers = dir.GetFiles("*.txt", SearchOption.AllDirectories);
 
                 string s = "";
 
@@ -39,12 +41,11 @@ namespace FilesSeparator
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /* DirectoryInfo dir = new DirectoryInfo(textBox1.Text);
+            MessageBox.Show(diir);
+             DirectoryInfo dir = new DirectoryInfo(diir);
              Random r = new Random();
-             string pathString = textBox3.Text+dir.Name + r.Next();
-             string filename = textBox1.Text +"\\"+listBox1.SelectedItem;
-             string desfile =pathString+"\\"+ listBox1.SelectedItem;
-            Directory.CreateDirectory(pathString);
+          /*   string pathString = textBox3.Text+dir.Name + r.Next();
+             Directory.CreateDirectory(pathString);
              File.Copy(filename, desfile);*/
         }
 
@@ -54,40 +55,6 @@ namespace FilesSeparator
         }
 
 
-        /* public static List<DirectoryInfo> getAllFilesFromDerectory(DirectoryInfo parent)
-             {
-                 List<DirectoryInfo> directories = new List<DirectoryInfo>();
-                 List<DirectoryInfo> files = new List<DirectoryInfo>();
-                 //adding initial parent whose files we want to fetch
-                 directories.Add(parent);
-                 while (directories.Count != 0)
-                 {
-                 FileInfo f = directories[0];
-                 directories.RemoveAt(0);
-                     if (f.isDirectory())
-                     {
-                         if (f.list().length > 0)
-                         {
-                             List<FileInfo> directoryList = Arrays.asList(f.);
-                             List<FileInfo> fileList = Arrays.asList(f.listFiles(fileFilter));
-                             directories.AddRange(directoryList);
-                             files.AddRange(fileList);z
-                         }
-                     }
-                 }
-                 return files;
-             }
-
-
-         public static List<FileInfo> filterr(List<FileInfo> ss, String type)
-         {
-             List<FileInfo> fff = new List<FileInfo>();
-             foreach (FileInfo file in ss)
-             {
-                 if (file.getPath().endsWith(type))
-                     fff.Add(file);
-             }
-             return fff;
-         }*/
+         
     }
 }
