@@ -15,46 +15,53 @@ namespace FilesSeparator
 {
     public partial class Form1 : Form
     {
-
         public Form1()
         {
             InitializeComponent();
         }
         string diir = "";
+        string distination = "";
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-                diir = folderBrowserDialog1.SelectedPath;
-                DirectoryInfo dir = new DirectoryInfo(diir);
-                FileInfo[] fichiers = dir.GetFiles("*.txt", SearchOption.AllDirectories);
-
-                string s = "";
-
-                foreach (FileInfo fichier in fichiers)
+            if (tb1.Text != "") { 
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    listBox1.Items.Add(fichier.FullName);
+                    diir = folderBrowserDialog1.SelectedPath;
+                    distination = diir + "1";
+
+                    DirectoryInfo dir = new DirectoryInfo(diir);
+
+                    FileInfo[] fichiers = dir.GetFiles("*." + tb1.Text, SearchOption.AllDirectories);
+
+                    foreach (FileInfo fichier in fichiers)
+                    {
+                        listBox1.Items.Add(fichier.FullName);
+                    }
+                    btnsave.Enabled = true;
                 }
             }
+            else
+                MessageBox.Show("le textbox est empty");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(diir);
-             DirectoryInfo dir = new DirectoryInfo(diir);
-             Random r = new Random();
-          /*   string pathString = textBox3.Text+dir.Name + r.Next();
-             Directory.CreateDirectory(pathString);
-             File.Copy(filename, desfile);*/
+            try {
+            DirectoryInfo dir = new DirectoryInfo(diir);
+            FileInfo[] fichiers = dir.GetFiles("*." + tb1.Text, SearchOption.AllDirectories);
+            foreach (FileInfo fichier in fichiers)
+            {
+                Directory.CreateDirectory(fichier.Directory.ToString().Replace(diir, distination));
+                File.Copy(fichier.FullName, fichier.FullName.Replace(diir, distination));
+            }
+            }
+            catch(Exception ex) { 
+            MessageBox.Show(ex.Message+"\n Supprimer le et réessayer");
+            }
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-
-         
+        }   
     }
 }
